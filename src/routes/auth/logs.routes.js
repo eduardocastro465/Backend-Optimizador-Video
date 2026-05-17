@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
-    getLogs, getLogById, getLogsByUserId, getLogsByDate, getLogsByNivel,
-    getLogsByRuta, getLogsByDateRange, getLogsByStatusCode, getLogsStats
+    getLogs, getLogById, getLogsByUserId, getLogsByDate, getLogsByLevel,
+    getLogsByPath, getLogsByDateRange, getLogsByStatusCode, getLogsStats
 } from '../../controllers/auth/log.controller.js';
 import { deleteLog, deleteLogsByDateRange, deleteAllLogs }
     from '../../controllers/auth/log.controller.js';
@@ -11,9 +11,9 @@ const router = Router();
 
 router.get('/', getLogs);
 router.get('/stats', getLogsStats);
-router.get('/ruta', getLogsByRuta);
+router.get('/path', getLogsByPath);
 router.get('/rango', getLogsByDateRange);
-router.get('/nivel/:nivel', getLogsByNivel);
+router.get('/level/:level', getLogsByLevel);
 router.get('/status/:status', getLogsByStatusCode);
 router.get('/date/:date', getLogsByDate);
 router.get('/user/:id', getLogsByUserId);

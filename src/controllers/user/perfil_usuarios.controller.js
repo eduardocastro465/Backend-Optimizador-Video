@@ -28,8 +28,8 @@ export const getPerfilById = asyncHandler(async (req, res) => {
 });
 
 export const getPerfilByUsuarioId = asyncHandler(async (req, res) => {
-    const { usuario_id } = req.params;
-    const perfil = await PerfilUsuarioModel.getByUsuarioId(usuario_id);
+    const { user_id } = req.params;
+    const perfil = await PerfilUsuarioModel.getByUserId(user_id);
     if (!perfil) {
         return res.status(404).json({
             success: false,
@@ -43,10 +43,10 @@ export const getPerfilByUsuarioId = asyncHandler(async (req, res) => {
 });
 
 export const crearPerfil = asyncHandler(async (req, res) => {
-    const { usuario_id } = req.params;
-    const { nombre, apellido, edad, telefono } = req.body;
+    const { user_id } = req.params;
+    const { firstName, lastName, birthDate, phone, gender, country } = req.body;
 
-    const existePerfil = await PerfilUsuarioModel.getByUsuarioId(usuario_id);
+    const existePerfil = await PerfilUsuarioModel.getByUserId(user_id);
     if (existePerfil) {
         return res.status(409).json({
             success: false,
@@ -54,7 +54,7 @@ export const crearPerfil = asyncHandler(async (req, res) => {
         });
     }
 
-    const id = await PerfilUsuarioModel.create(usuario_id, { nombre, apellido, edad, telefono });
+    const id = await PerfilUsuarioModel.create(user_id, { firstName, lastName, birthDate, phone, gender, country });
     res.status(201).json({
         success: true,
         message: SUCCESS_MESSAGES.PERFIL_CREADO,
@@ -63,10 +63,10 @@ export const crearPerfil = asyncHandler(async (req, res) => {
 });
 
 export const actualizarPerfil = asyncHandler(async (req, res) => {
-    const { usuario_id } = req.params;
-    const { nombre, apellido, edad, telefono } = req.body;
+    const { user_id } = req.params;
+    const { firstName, lastName, birthDate, phone, gender, country } = req.body;
 
-    const existe = await PerfilUsuarioModel.getByUsuarioId(usuario_id);
+    const existe = await PerfilUsuarioModel.getByUserId(user_id);
     if (!existe) {
         return res.status(404).json({
             success: false,
@@ -74,7 +74,7 @@ export const actualizarPerfil = asyncHandler(async (req, res) => {
         });
     }
 
-    await PerfilUsuarioModel.update(usuario_id, { nombre, apellido, edad, telefono });
+    await PerfilUsuarioModel.update(user_id, { firstName, lastName, birthDate, phone, gender, country });
     res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.PERFIL_ACTUALIZADO
@@ -82,9 +82,9 @@ export const actualizarPerfil = asyncHandler(async (req, res) => {
 });
 
 export const eliminarPerfil = asyncHandler(async (req, res) => {
-    const { usuario_id } = req.params;
+    const { user_id } = req.params;
 
-    const existe = await PerfilUsuarioModel.getByUsuarioId(usuario_id);
+    const existe = await PerfilUsuarioModel.getByUserId(user_id);
     if (!existe) {
         return res.status(404).json({
             success: false,
@@ -92,7 +92,7 @@ export const eliminarPerfil = asyncHandler(async (req, res) => {
         });
     }
 
-    await PerfilUsuarioModel.delete(usuario_id);
+    await PerfilUsuarioModel.delete(user_id);
     res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.PERFIL_ELIMINADO

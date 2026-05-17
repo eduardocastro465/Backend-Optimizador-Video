@@ -4,50 +4,50 @@ const PerfilUsuarioModel = {
 
     getAll: async () => {
         const { rows } = await pool.query(`
-            SELECT id, usuario_id, nombre, apellido, edad, telefono, created_at
-            FROM tblPerfil_usuarios
+            SELECT id, user_id, first_name, last_name, birth_date, phone, gender, country, created_at
+            FROM tblUser_profiles
         `);
         return rows;
     },
 
     getById: async (id) => {
         const { rows } = await pool.query(`
-            SELECT id, usuario_id, nombre, apellido, edad, telefono, created_at
-            FROM tblPerfil_usuarios
+            SELECT id, user_id, first_name, last_name, birth_date, phone, gender, country, created_at
+            FROM tblUser_profiles
             WHERE id = $1
         `, [id]);
         return rows[0];
     },
 
-    getByUsuarioId: async (usuario_id) => {
+    getByUserId: async (user_id) => {
         const { rows } = await pool.query(`
-            SELECT id, usuario_id, nombre, apellido, edad, telefono, created_at
-            FROM tblPerfil_usuarios
-            WHERE usuario_id = $1
-        `, [usuario_id]);
+            SELECT id, user_id, first_name, last_name, birth_date, phone, gender, country, created_at
+            FROM tblUser_profiles
+            WHERE user_id = $1
+        `, [user_id]);
         return rows[0];
     },
 
-    create: async (usuario_id, { nombre, apellido, edad, telefono }) => {
+    create: async (user_id, { firstName, lastName, birthDate, phone, gender, country }) => {
         const { rows } = await pool.query(`
-            INSERT INTO tblPerfil_usuarios (usuario_id, nombre, apellido, edad, telefono)
-            VALUES ($1, $2, $3, $4, $5) RETURNING id
-        `, [usuario_id, nombre, apellido, edad, telefono]);
+            INSERT INTO tblUser_profiles (user_id, first_name, last_name, birth_date, phone, gender, country)
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id
+        `, [user_id, firstName, lastName, birthDate, phone, gender, country]);
         return rows[0].id;
     },
 
-    update: async (usuario_id, { nombre, apellido, edad, telefono }) => {
+    update: async (user_id, { firstName, lastName, birthDate, phone, gender, country }) => {
         await pool.query(`
-            UPDATE tblPerfil_usuarios
-            SET nombre = $1, apellido = $2, edad = $3, telefono = $4
-            WHERE usuario_id = $5
-        `, [nombre, apellido, edad, telefono, usuario_id]);
+            UPDATE tblUser_profiles
+            SET first_name = $1, last_name = $2, birth_date = $3, phone = $4, gender = $5, country = $6
+            WHERE user_id = $7
+        `, [firstName, lastName, birthDate, phone, gender, country, user_id]);
     },
 
-    delete: async (usuario_id) => {
+    delete: async (user_id) => {
         await pool.query(
-            'DELETE FROM tblPerfil_usuarios WHERE usuario_id = $1',
-            [usuario_id]
+            'DELETE FROM tblUser_profiles WHERE user_id = $1',
+            [user_id]
         );
     }
 };

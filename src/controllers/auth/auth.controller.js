@@ -6,56 +6,53 @@ import { modoProduction } from '../../config.js';
 import { generarCodigo, sendEmail } from "../../services/email.js";
 
 
-export const verificarPermisos = asyncHandler(async (req, res) => {
-    const { rol_id } = req.user;
+export const verifyPermissions = asyncHandler(async (req, res) => {
+    const { rol_id: roleId } = req.user;
 
-    const rol = await AuthModel.comprobarPermisos(rol_id);
+    const role = await AuthModel.checkPermissions(roleId);
     res.status(200).json({
         success: true,
-        data: rol,
+        data: role,
     });
 });
 
-export const enviarCodigoEmail = asyncHandler(async (req, res) => {
+export const sendEmailCode = asyncHandler(async (req, res) => {
 
     const { email } = req.body;
 
-    const codigo = generarCodigo();
+    const code = generarCodigo();
 
-    const minutos = 10;
-    const expira_en = new Date(Date.now() + minutos * 60 * 1000);
-
-    await AuthModel.guardarCodigoCorreo(email, codigo, expira_en)
-    await sendEmail(email, codigo);
+    await AuthModel.saveEmailCode(email, code);
+    await sendEmail(email, code);
 
     return res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.Codigo_Enviado,
-    })
+    });
 
-})
+});
 
-export const verificarCodigoEmail = asyncHandler(async (req, res) => {
+export const verifyEmailCode = asyncHandler(async (req, res) => {
 
-    const { email, codigo } = req.body;
+    const { email, code } = req.body;
 
+    const verifiedCode = await AuthModel.verifyEmailCode(email, code);
 
-    const codigoVerificado = await AuthModel.verificarCodigoCorreo(email, codigo);
+    if (!verifiedCode) throwError(ERROR_MESSAGES.CODIGO_INVALIDO, 400);
 
-    if (!codigoVerificado) throwError(ERROR_MESSAGES.CODIGO_INVALIDO, 400);
-
-    await AuthModel.marcarCodigoUsado(codigoVerificado.id);
+    await AuthModel.markCodeAsUsed(verifiedCode.id);
 
     return res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.Codigo_Verificado,
     });
-})
+});
 
 export const register = asyncHandler(async (req, res) => {
-    const { usuario, perfilUsuario } = req.body;
+    const { user, perfilUser } = req.body;
 
-    const token = await AuthModel.register(usuario, perfilUsuario);
+    const { token } = await AuthModel.register(user, perfilUser);
+
     res.cookie('token', token, {
         httpOnly: true,
         secure: modoProduction,
@@ -65,14 +62,25 @@ export const register = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         success: true,
-        message: SUCCESS_MESSAGES.REGISTRO_EXITOSO,
+        message: SUCCESS_MESSAGES.REGISTRO_EXITOSO
     });
 });
 
 export const login = asyncHandler(async (req, res) => {
-    const { email, usuario, password } = req.body;
+    const { identifier, email, username, password } = req.body;
 
-    const token = await AuthModel.login(email, usuario, password);
+    let userEmail = email;
+    let userName = username;
+
+    if (identifier) {
+        if (identifier.includes('@')) {
+            userEmail = identifier;
+        } else {
+            userName = identifier;
+        }
+    }
+
+    const { token, user } = await AuthModel.login(userEmail, userName, password);
 
     res.cookie('token', token, {
         httpOnly: true,
@@ -84,13 +92,14 @@ export const login = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.LOGIN_EXITOSO,
+        user
     });
 });
 
-export const cambiarContrasena = asyncHandler(async (req, res) => {
-    const { email, usuario, password, newPassword } = req.body;
+export const changePassword = asyncHandler(async (req, res) => {
+    const { email, username, password, newPassword } = req.body;
 
-    await AuthModel.changePassword(email, usuario, password, newPassword);
+    await AuthModel.changePassword(email, username, password, newPassword);
     res.status(201).json({
         success: true,
         message: SUCCESS_MESSAGES.CONTRASENA_CAMBIADA,

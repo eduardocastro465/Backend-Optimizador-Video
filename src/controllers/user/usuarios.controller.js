@@ -29,7 +29,7 @@ export const getUsuarioById = asyncHandler(async (req, res) => {
 
 export const actualizarUsuario = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { usuario, email } = req.body;
+  const { username, email } = req.body;
 
   const existe = await UsuarioModel.getById(id);
   if (!existe) {
@@ -39,7 +39,7 @@ export const actualizarUsuario = asyncHandler(async (req, res) => {
     });
   }
 
-  await UsuarioModel.update(id, usuario, email);
+  await UsuarioModel.update(id, username, email);
   res.status(200).json({
     success: true,
     message: SUCCESS_MESSAGES.USUARIO_ACTUALIZADO
@@ -48,7 +48,7 @@ export const actualizarUsuario = asyncHandler(async (req, res) => {
 
 export const actualizarFoto = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { foto } = req.body;
+  const { photo } = req.body;
 
   const existe = await UsuarioModel.getById(id);
   if (!existe) {
@@ -58,7 +58,7 @@ export const actualizarFoto = asyncHandler(async (req, res) => {
     });
   }
 
-  await UsuarioModel.updateFoto(id, foto);
+  await UsuarioModel.updatePhoto(id, photo);
   res.status(200).json({
     success: true,
     message: SUCCESS_MESSAGES.FOTO_ACTUALIZADA

@@ -35,10 +35,10 @@ async function initDb() {
     // Orden importa: respetar las foreign keys
     await client.query(readSql('log.sql'));
     await client.query(readSql('roles.sql'));
-    await client.query(readSql('usuarios.sql'));
-    await client.query(readSql('codigos_verificacion.sql'))
-    await client.query(readSql('tareas.sql'));
-    await client.query(readSql('adjuntos.sql'));
+    await client.query(readSql('users.sql'));
+    await client.query(readSql('verification_codes.sql'));
+    await client.query(readSql('tasks.sql'));
+    await client.query(readSql('attachments.sql'));
 
     textoColorido(
       LOG_MESSAGES.TABLAS_LISTAS,

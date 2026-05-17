@@ -1,8 +1,9 @@
 export const ROLES = Object.freeze({
-    Usuario: 1,
-    Administrador: 2,
-    Propietario: 3,
+    Administrator: 1,
+    Ui_designer: 2,
+    User: 3,
+    Guest: 4
 });
 
-export const ROLES_TODOS = [ROLES.Usuario, ROLES.Administrador, ROLES.Propietario];
-export const ROLES_ADMIN = [ROLES.Administrador, ROLES.Propietario];
+export const ROLES_TODOS = [ROLES.Administrator, ROLES.Ui_designer, ROLES.User, ROLES.Guest];
+export const ROLES_ADMIN = [ROLES.Administrator];

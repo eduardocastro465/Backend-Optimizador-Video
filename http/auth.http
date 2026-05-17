@@ -7,7 +7,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "usuario": "Eduardo 465",
+    "username": "Eduardo 465",
     "password": "Eduardog46500!"
 }
 
@@ -25,16 +25,16 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "usuario": {
-        "usuario": "eduardo_465",
+    "user": {
+        "username": "eduardo_465",
         "email": "eduardo1@ejemplo.com",
         "password": "Eduardog46500!"
     },
-    "perfilUsuario": {
-        "nombre": "Eduardo",
-        "apellido": "García",
-        "edad": 25,
-        "telefono": "5512345678"
+    "perfilUser": {
+        "firstName": "Eduardo",
+        "lastName": "García",
+        "birthDate": "1999-05-15",
+        "phone": "5512345678"
     }
 }
 
@@ -43,7 +43,7 @@ PUT {{baseUrl}}/auth/cambiar-contrasena
 Content-Type: application/json
 
 {
-    "usuario": "Eduardo 465",
+    "username": "Eduardo 465",
     "password": "Eduardog46500!",
     "newPassword": "NuevaContrasena123!"
 }

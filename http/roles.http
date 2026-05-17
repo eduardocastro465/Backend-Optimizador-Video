@@ -15,9 +15,9 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "rol": "Administrador",
-    "descripcion": "Acceso total al sistema",
-    "activo": true
+    "role": "Administrator",
+    "description": "Acceso total al sistema",
+    "active": true
 }
 
 ### Actualizar rol
@@ -26,9 +26,9 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "rol": "Supervisor",
-    "descripcion": "Acceso limitado al sistema",
-    "activo": true
+    "role": "Administrator",
+    "description": "Acceso total al sistema",
+    "active": true
 }
 
 ### Toggle activo/inactivo
@@ -37,7 +37,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "activo": false
+    "active": false
 }
 
 ### Eliminar rol

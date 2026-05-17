@@ -12,13 +12,13 @@ import {
 const router = Router();
 
 // Rutas para obtener perfiles
-router.get('/:usuario_id', getPerfilByUsuarioId);
+router.get('/:user_id', getPerfilByUsuarioId);
 router.get('/:id', getPerfilById);
 router.get('/', getAllPerfiles);
 
 // Rutas para crear, actualizar y eliminar perfiles
-router.post('/:usuario_id', crearPerfil);
-router.put('/:usuario_id', actualizarPerfil);
-router.delete('/:usuario_id', eliminarPerfil);
+router.post('/:user_id', crearPerfil);
+router.put('/:user_id', actualizarPerfil);
+router.delete('/:user_id', eliminarPerfil);
 
 export default router;

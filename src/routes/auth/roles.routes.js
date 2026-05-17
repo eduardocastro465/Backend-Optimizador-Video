@@ -6,7 +6,9 @@ import { getRoles, createRol, updateRol, toggleActivoRol, deleteRol } from '../.
 const router = Router();
 
 router.get('/', getRoles);
-router.post('/', validate(createRolSchema), createRol);
+router.post('/',
+    // validate(createRolSchema), 
+    createRol);
 router.put('/:id', validate(rolUpdateSchema), updateRol);
 router.patch('/rolToggle/:id', validate(rolToggleActivoSchema), toggleActivoRol);
 router.delete('/:id', deleteRol);

@@ -18,15 +18,15 @@ GET {{base}}/date/2026-04-17
 Cookie: token={{token}}
 
 ### Obtener logs por nivel (error | warn | info | http | sql)
-GET {{base}}/nivel/error
+GET {{base}}/level/error
 Cookie: token={{token}}
 
 ### Obtener logs por ruta
-GET {{base}}/ruta?ruta=/api/auth/login
+GET {{base}}/path?path=/api/auth/login
 Cookie: token={{token}}
 
 ### Obtener logs por rango de fechas
-GET {{base}}/rango?desde=2026-04-01&hasta=2026-04-17
+GET {{base}}/rango?startDate=2026-04-01&endDate=2026-04-17
 Cookie: token={{token}}
 
 ### Obtener logs por status code
@@ -44,7 +44,7 @@ DELETE {{base}}/9
 Cookie: token={{token}}
 
 ### Eliminar logs por rango de fechas
-DELETE {{base}}/rango?desde=2026-04-01&hasta=2026-04-17
+DELETE {{base}}/rango?startDate=2026-04-01&endDate=2026-04-17
 Cookie: token={{token}}
 
 ### Eliminar todos los logs

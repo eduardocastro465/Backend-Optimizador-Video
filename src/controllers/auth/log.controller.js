@@ -45,21 +45,21 @@ export const getLogById = asyncHandler(async (req, res) => {
     })
 })
 
-export const getLogsByNivel = asyncHandler(async (req, res) => {
-    const { nivel } = req.params;
-    const logs = await LogModel.getByNivel(nivel);
+export const getLogsByLevel = asyncHandler(async (req, res) => {
+    const { level } = req.params;
+    const logs = await LogModel.getByLevel(level);
     return res.status(200).json({ success: true, data: logs });
 });
 
-export const getLogsByRuta = asyncHandler(async (req, res) => {
-    const { ruta } = req.query;
-    const logs = await LogModel.getByRuta(ruta);
+export const getLogsByPath = asyncHandler(async (req, res) => {
+    const { path } = req.query;
+    const logs = await LogModel.getByPath(path);
     return res.status(200).json({ success: true, data: logs });
 });
 
 export const getLogsByDateRange = asyncHandler(async (req, res) => {
-    const { desde, hasta } = req.query;
-    const logs = await LogModel.getByDateRange(desde, hasta);
+    const { startDate, endDate } = req.query;
+    const logs = await LogModel.getByDateRange(startDate, endDate);
     return res.status(200).json({ success: true, data: logs });
 });
 
@@ -75,8 +75,8 @@ export const getLogsStats = asyncHandler(async (req, res) => {
 });
 
 export const deleteLogsByDateRange = asyncHandler(async (req, res) => {
-    const { desde, hasta } = req.query;
-    const eliminados = await LogModel.deleteByDateRange(desde, hasta);
+    const { startDate, endDate } = req.query;
+    const eliminados = await LogModel.deleteByDateRange(startDate, endDate);
 
     if (!eliminados) {
         return res.status(404).json({

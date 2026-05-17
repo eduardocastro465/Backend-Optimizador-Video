@@ -20,7 +20,7 @@ const LogModel = {
 
     getByUserId: async (userId) => {
         const { rows } = await pool.query(
-            'SELECT * FROM tblLogs WHERE usuario_id = $1',
+            'SELECT * FROM tblLogs WHERE user_id = $1',
             [userId]
         );
         return rows;
@@ -42,18 +42,18 @@ const LogModel = {
         return rows;
     },
 
-    getByNivel: async (nivel) => {
+    getByLevel: async (level) => {
         const { rows } = await pool.query(
-            'SELECT * FROM tblLogs WHERE nivel = $1',
-            [nivel]
+            'SELECT * FROM tblLogs WHERE level = $1',
+            [level]
         );
         return rows;
     },
 
-    getByRuta: async (ruta) => {
+    getByPath: async (path) => {
         const { rows } = await pool.query(
-            'SELECT * FROM tblLogs WHERE ruta LIKE $1',
-            [`%${ruta}%`]
+            'SELECT * FROM tblLogs WHERE path LIKE $1',
+            [`%${path}%`]
         );
         return rows;
     },
@@ -70,10 +70,10 @@ const LogModel = {
         const { rows } = await pool.query(`
             SELECT
                 COUNT(*) as total,
-                COUNT(CASE WHEN nivel = 'error' THEN 1 END) as errores,
-                COUNT(CASE WHEN nivel = 'warn'  THEN 1 END) as advertencias,
-                COUNT(CASE WHEN nivel = 'info'  THEN 1 END) as informativos,
-                COUNT(CASE WHEN status_code >= 400 THEN 1 END) as fallidos
+                COUNT(CASE WHEN level = 'error' THEN 1 END) as errors,
+                COUNT(CASE WHEN level = 'warn'  THEN 1 END) as warnings,
+                COUNT(CASE WHEN level = 'info'  THEN 1 END) as info,
+                COUNT(CASE WHEN status_code >= 400 THEN 1 END) as failed
             FROM tblLogs
         `);
         return rows[0];

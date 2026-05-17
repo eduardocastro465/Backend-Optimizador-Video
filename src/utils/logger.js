@@ -14,16 +14,16 @@ if (!fs.existsSync(path.dirname(logFile))) {
     fs.mkdirSync(path.dirname(logFile), { recursive: true });
 }
 
-export const logError = async (error, req = null, nivel = 'error') => {
+export const logError = async (error, req = null, level = 'error') => {
 
     const logData = {
-        nivel: nivel,
-        mensaje: error.message || error,
+        level: level,
+        message: error.message || error,
         timestamp: new Date().toISOString(),
-        ruta: req?.originalUrl || null,
-        metodo: req?.method || null,
+        path: req?.originalUrl || null,
+        method: req?.method || null,
         status_code: error.status || 500,
-        usuario_id: req?.user?.id || null,
+        user_id: req?.user?.id || null,
         ip: req?.ip || req?.connection?.remoteAddress || null,
         user_agent: req?.headers?.['user-agent'] || null,
         stack: error.stack || null
@@ -44,15 +44,15 @@ export const logError = async (error, req = null, nivel = 'error') => {
     // GUARDAR EN BASE DE DATOS
     try {
         await pool.query(
-            `INSERT INTO tblLogs (nivel, mensaje, ruta, metodo, status_code, usuario_id, ip, user_agent, body, stack)
+            `INSERT INTO tblLogs (level, message, path, method, status_code, user_id, ip, user_agent, body, stack)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
             [
-                logData.nivel,
-                logData.mensaje,
-                logData.ruta,
-                logData.metodo,
+                logData.level,
+                logData.message,
+                logData.path,
+                logData.method,
                 logData.status_code,
-                logData.usuario_id,
+                logData.user_id,
                 logData.ip,
                 logData.user_agent,
                 logData.body || null,
@@ -65,15 +65,15 @@ export const logError = async (error, req = null, nivel = 'error') => {
 
     // Mostrar en consola en desarrollo
     if (modoProduction !== 'production') {
-        console.error(`ERROR: ${logData.mensaje} | ${logData.ruta || ''} | ${logData.metodo || ''}`);
+        console.error(`ERROR: ${logData.message} | ${logData.path || ''} | ${logData.method || ''}`);
     }
 };
 
 // Función para logs sin req (errores internos)
-export const logSimple = async (mensaje, nivel = 'error') => {
+export const logSimple = async (message, level = 'error') => {
     const logData = {
-        nivel: nivel,
-        mensaje: mensaje,
+        level: level,
+        message: message,
         timestamp: new Date().toISOString()
     };
 
@@ -83,8 +83,8 @@ export const logSimple = async (mensaje, nivel = 'error') => {
     // Guardar en BD
     try {
         await pool.query(
-            `INSERT INTO tblLogs (nivel, mensaje) VALUES ($1, $2)`,
-            [nivel, mensaje]
+            `INSERT INTO tblLogs (level, message) VALUES ($1, $2)`,
+            [level, message]
         );
     } catch (dbError) {
         console.error('Error al guardar log:', dbError.message);

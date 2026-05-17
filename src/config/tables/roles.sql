@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS tblRoles (
     id          SERIAL PRIMARY KEY,
-    rol         VARCHAR(30) NOT NULL UNIQUE,
-    descripcion VARCHAR(250),
-    activo      BOOLEAN DEFAULT TRUE,
+    role        VARCHAR(30) NOT NULL UNIQUE,
+    description VARCHAR(250),
+    active      BOOLEAN DEFAULT TRUE,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

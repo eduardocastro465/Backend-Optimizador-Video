@@ -5,23 +5,26 @@ const RolesModel = {
 
     getAll: async () => {
         const { rows } = await pool.query(
-            'SELECT id, rol, descripcion, activo, created_at FROM tblRoles ORDER BY id'
+            'SELECT id, role, description, active, created_at FROM tblRoles ORDER BY id'
         );
         return rows;
     },
 
     getById: async (id) => {
         const { rows } = await pool.query(
-            'SELECT id, rol, descripcion, activo, created_at FROM tblRoles WHERE id = $1',
+            'SELECT id, role, description, active, created_at FROM tblRoles WHERE id = $1',
             [id]
         );
         return rows[0] || null;
     },
 
-    create: async (rol, descripcion, activo) => {
+    create: async (role, description, active) => {
+
+        const format_role = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()
+
         const { rows: existe } = await pool.query(
-            'SELECT id FROM tblRoles WHERE rol = $1',
-            [rol]
+            'SELECT id FROM tblRoles WHERE role = $1',
+            [format_role]
         );
 
         if (existe.length > 0) {
@@ -29,32 +32,36 @@ const RolesModel = {
         }
 
         const { rows } = await pool.query(
-            'INSERT INTO tblRoles (rol, descripcion, activo) VALUES ($1, $2, $3) RETURNING id',
-            [rol, descripcion, activo]
+            'INSERT INTO tblRoles (role, description, active) VALUES ($1, $2, $3) RETURNING id',
+            [format_role, description, active]
         );
 
         return rows[0].id;
     },
 
-    update: async (id, rol, descripcion, activo) => {
+    update: async (id, role, description, active) => {
+
+        const format_role = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()
+
+
         const { rowCount } = await pool.query(`
             UPDATE tblRoles
-            SET rol = $1,
-                descripcion = $2,
-                activo = $3
+            SET role = $1,
+                description = $2,
+                active = $3
             WHERE id = $4
-        `, [rol, descripcion, activo, id]);
+        `, [format_role, description, active, id]);
 
         if (rowCount === 0) {
             throw new Error(ERROR_MESSAGES.NO_EXISTE('rol'));
         }
-        return { id, rol, descripcion, activo };
+        return { id, format_role, description, active };
     },
 
-    toggleActivo: async (id, activo) => {
+    toggleActivo: async (id, active) => {
         const { rowCount } = await pool.query(
-            'UPDATE tblRoles SET activo = $1 WHERE id = $2',
-            [activo, id]
+            'UPDATE tblRoles SET active = $1 WHERE id = $2',
+            [active, id]
         );
         return rowCount > 0;
     },

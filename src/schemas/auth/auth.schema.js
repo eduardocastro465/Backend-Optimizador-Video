@@ -14,29 +14,26 @@ const emailSchema = z.email({ required_error: SCHEMA_ERRORS.EMAIL_REQUERIDO })
     .max(100, SCHEMA_ERRORS.EMAIL_MAX(100));
 
 export const registerSchema = z.object({
-    usuario: z.object({
-        usuario: z.string({ required_error: SCHEMA_ERRORS.USUARIO_REQUERIDO })
+    user: z.object({
+        username: z.string({ required_error: SCHEMA_ERRORS.USUARIO_REQUERIDO })
             .min(3, SCHEMA_ERRORS.USUARIO_MIN(3))
             .max(30, SCHEMA_ERRORS.USUARIO_MAX(30)),
         email: emailSchema,
         password: passwordSchema,
     }),
-    perfilUsuario: z.object({
-        nombre: z.string({ required_error: SCHEMA_ERRORS.NOMBRE_REQUERIDO })
+    perfilUser: z.object({
+        firstName: z.string({ required_error: SCHEMA_ERRORS.NOMBRE_REQUERIDO })
             .min(3, SCHEMA_ERRORS.NOMBRE_MIN(3))
             .max(30, SCHEMA_ERRORS.NOMBRE_MAX(30)),
-        apellido: z.string({ required_error: SCHEMA_ERRORS.APELLIDO_REQUERIDO })
+        lastName: z.string({ required_error: SCHEMA_ERRORS.APELLIDO_REQUERIDO })
             .min(3, SCHEMA_ERRORS.APELLIDO_MIN(3))
             .max(50, SCHEMA_ERRORS.APELLIDO_MAX(50)),
-        telefono: z.string({ required_error: SCHEMA_ERRORS.TELEFONO_REQUERIDO })
+        phone: z.string({ required_error: SCHEMA_ERRORS.TELEFONO_REQUERIDO })
             .regex(/^[0-9]{8,20}$/, SCHEMA_ERRORS.TELEFONO_FORMATO)
             .optional(),
-        genero: z.string({ required_error: SCHEMA_ERRORS.GENERO_REQUERIDO })
-            .min(3, SCHEMA_ERRORS.GENERO_MIN(3))
-            .max(30, SCHEMA_ERRORS.GENERO_MAX(30))
-            .optional(),
-        fecha_nacimiento: z.date({ required_error: SCHEMA_ERRORS.FECHA_NACIMIENTO_REQUERIDO }),
-        pais: z.string({ required_error: SCHEMA_ERRORS.PAIS_REQUERIDO })
+        birthDate: z.coerce.date({ required_error: SCHEMA_ERRORS.FECHA_NACIMIENTO_REQUERIDO }),
+
+        country: z.string({ required_error: SCHEMA_ERRORS.PAIS_REQUERIDO })
             .min(3, SCHEMA_ERRORS.PAIS_MIN(3))
             .max(60, SCHEMA_ERRORS.PAIS_MAX(60))
             .optional(),
@@ -44,26 +41,30 @@ export const registerSchema = z.object({
 }).strict();
 
 export const loginSchema = z.object({
+    identifier: z.string().min(3, SCHEMA_ERRORS.USUARIO_MIN(3)).max(100).optional(),
     email: emailSchema.optional(),
-    usuario: z.string()
+    username: z.string()
         .min(3, SCHEMA_ERRORS.USUARIO_MIN(3))
         .max(30, SCHEMA_ERRORS.USUARIO_MAX(30))
         .optional(),
     password: passwordSchema,
-}).refine(data => data.email || data.usuario, {
+}).refine(data => data.identifier || data.email || data.username, {
     message: SCHEMA_ERRORS.EMAIL_O_USUARIO_REQUERIDO,
     path: ['email']
 });
 
-export const cambiarContrasenaSchema = z.object({
+export const changePasswordSchema = z.object({
     email: emailSchema.optional(),
-    usuario: z.string()
+
+    username: z.string()
         .min(3, SCHEMA_ERRORS.USUARIO_MIN(3))
         .max(30, SCHEMA_ERRORS.USUARIO_MAX(30))
         .optional(),
+
     password: z.string({ required_error: SCHEMA_ERRORS.PASSWORD_ACTUAL_REQUERIDO })
         .min(8, SCHEMA_ERRORS.PASSWORD_MIN(8))
         .max(50, SCHEMA_ERRORS.PASSWORD_MAX(50)),
+
     newPassword: z.string({ required_error: SCHEMA_ERRORS.PASSWORD_NUEVA_REQUERIDO })
         .min(8, SCHEMA_ERRORS.PASSWORD_MIN(8))
         .max(50, SCHEMA_ERRORS.PASSWORD_MAX(50))
@@ -71,7 +72,8 @@ export const cambiarContrasenaSchema = z.object({
         .regex(/[a-z]/, SCHEMA_ERRORS.PASSWORD_MINUSCULA)
         .regex(/[0-9]/, SCHEMA_ERRORS.PASSWORD_NUMERO)
         .regex(/[^A-Za-z0-9]/, SCHEMA_ERRORS.PASSWORD_SIMBOLO),
-}).refine(data => data.email || data.usuario, {
+
+}).refine(data => data.email || data.username, {
     message: SCHEMA_ERRORS.EMAIL_O_USUARIO_REQUERIDO,
     path: ['email']
 }).refine(data => data.password !== data.newPassword, {
@@ -79,13 +81,13 @@ export const cambiarContrasenaSchema = z.object({
     path: ['newPassword']
 });
 
-export const enviarCodigoEmailSchema = z.object({
+export const sendEmailCodeSchema = z.object({
     email: emailSchema,
 });
 
-export const verificarCodigoEmailSchema = z.object({
+export const verifyEmailCodeSchema = z.object({
     email: emailSchema,
-    codigo: z.string({ error: SCHEMA_ERRORS.CODIGO_REQUERIDO })
+    code: z.string({ error: SCHEMA_ERRORS.CODIGO_REQUERIDO })
         .length(6, SCHEMA_ERRORS.CODIGO_LENGTH(6))
         .regex(/^[0-9]+$/, SCHEMA_ERRORS.CODIGO_SOLO_NUMEROS),
 });

@@ -21,9 +21,9 @@ export const getById = asyncHandler(async (req, res) => {
 })
 
 export const createRol = asyncHandler(async (req, res) => {
-    const { rol, descripcion, activo } = req.body
+    const { role, description, active } = req.body
 
-    const roles = await RolesModel.create(rol, descripcion, activo);
+    const roles = await RolesModel.create(role, description, active);
     return res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.ROL_CREADO,
@@ -33,8 +33,8 @@ export const createRol = asyncHandler(async (req, res) => {
 
 export const updateRol = asyncHandler(async (req, res) => {
     const { id } = req.params
-    const { rol, descripcion, activo } = req.body
-    const roles = await RolesModel.update(id, rol, descripcion, activo);
+    const { role, description, active } = req.body
+    const roles = await RolesModel.update(id, role, description, active);
     return res.status(200).json({
         success: true,
         message: SUCCESS_MESSAGES.ROL_ACTUALIZADO,
@@ -44,10 +44,10 @@ export const updateRol = asyncHandler(async (req, res) => {
 
 export const toggleActivoRol = asyncHandler(async (req, res) => {
     const { id } = req.params
-    const { activo } = req.body
-    const rolActivo = await RolesModel.toggleActivo(id, activo);
+    const { active } = req.body
+    const roleActive = await RolesModel.toggleActivo(id, active);
 
-    if (!rolActivo) {
+    if (!roleActive) {
         return res.status(404).json({
             success: false,
             message: ERROR_MESSAGES.NO_ENCONTRADO('rol')
@@ -56,7 +56,7 @@ export const toggleActivoRol = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
         success: true,
-        message: activo ? SUCCESS_MESSAGES.ROL_ACTIVADO : SUCCESS_MESSAGES.ROL_DESACTIVADO,
+        message: active ? SUCCESS_MESSAGES.ROL_ACTIVADO : SUCCESS_MESSAGES.ROL_DESACTIVADO,
     });
 })
 

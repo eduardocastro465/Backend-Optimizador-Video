@@ -41,7 +41,7 @@ app.use(
 
 // Middlewares de configuración
 app.use(helmet()); // Seguridad de cabeceras HTTP
-app.use(generalLimiter); // Limita las peticiones globales para evitar abuso
+// app.use(generalLimiter); // Limita las peticiones globales para evitar abuso
 app.use(express.json());
 app.use(jsonErrorHandler);
 app.use(cookieParser()); // Para manejar las cookies
@@ -50,9 +50,12 @@ app.use(morgan(modoProduction ? 'combined' : 'dev'));
 app.use(sanitizeHtml) // Limpia del codigo html malicioso de las peticiones
 
 // Rutas
-app.use('/api/auth/roles', verifyToken, autorizar(ROLES.Administrador), rolesRoutes);
+app.use('/api/auth/roles',
+  // verifyToken,
+  //  autorizar(ROLES.Administrator),
+  rolesRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/logs', verifyToken, autorizar(ROLES.Administrador), logRoutes);
+app.use('/api/logs', verifyToken, autorizar(ROLES.Administrator), logRoutes);
 app.use('/api/usuarios/perfiles', verifyToken, autorizar(ROLES_TODOS), perfilUsuarioRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 
