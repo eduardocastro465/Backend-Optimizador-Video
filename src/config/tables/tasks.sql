@@ -32,6 +32,11 @@ CREATE TRIGGER trg_tasks_updated_at
 BEFORE UPDATE ON tblTasks
 FOR EACH ROW EXECUTE FUNCTION fn_update_updated_at();
 
+CREATE INDEX IF NOT EXISTS idx_tasks_assigned_to ON tblTasks(assigned_to);
+CREATE INDEX IF NOT EXISTS idx_tasks_created_by ON tblTasks(created_by);
+CREATE INDEX IF NOT EXISTS idx_tasks_status ON tblTasks(status);
+CREATE INDEX IF NOT EXISTS idx_tasks_deleted_at ON tblTasks(deleted_at);
+
 -- ─── Comments ──────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS tblTask_comments (
@@ -51,3 +56,5 @@ DROP TRIGGER IF EXISTS trg_comments_updated_at ON tblTask_comments;
 CREATE TRIGGER trg_comments_updated_at
 BEFORE UPDATE ON tblTask_comments
 FOR EACH ROW EXECUTE FUNCTION fn_update_updated_at();
+
+CREATE INDEX IF NOT EXISTS idx_comments_task_id ON tblTask_comments(task_id);

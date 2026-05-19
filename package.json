@@ -1,12 +1,14 @@
 {
   "name": "administrador-tareas-edu",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production node src/app.js",
-    "dev": "cross-env NODE_ENV=development nodemon ./src/app.js"
+    "build": "tsc",
+    "dev": "cross-env NODE_ENV=development nodemon --exec tsx src/app.ts",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -14,11 +16,13 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
+    "google-auth-library": "^10.6.2",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.2.1",
@@ -30,9 +34,27 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/compression": "^1.8.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.8.0",
+    "@types/node-cron": "^3.0.11",
+    "@types/pg": "^8.20.0",
+    "@types/sanitize-html": "^2.16.1",
+    "@types/uuid": "^10.0.0",
     "cross-env": "^10.1.0",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
     "gradient-string": "^3.0.0",
     "morgan": "^1.10.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "tsx": "^4.22.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3"
   }
 }
