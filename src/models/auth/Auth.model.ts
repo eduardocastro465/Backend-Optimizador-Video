@@ -73,8 +73,7 @@ const AuthModel = {
     apellidos: string,
     email: string,
     foto_perfil: string,
-    sub: string,
-    // _locale: string,
+    sub: string
   ) => {
     // Busca si ya existe el usuario
     const existing = await pool.query(
