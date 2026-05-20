@@ -153,6 +153,8 @@ const AuthModel = {
 
     if (!user.active) throw new Error(ERROR_MESSAGES.USUARIO_DESACTIVADO);
 
+    if (!user.password) throw new Error(ERROR_MESSAGES.CUENTA_GOOGLE);
+
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) throw new Error(ERROR_MESSAGES.CREDENCIALES_INCORRECTAS);
 

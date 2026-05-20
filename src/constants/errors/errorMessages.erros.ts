@@ -22,6 +22,9 @@ export const ERROR_MESSAGES = {
   USUARIO_DESACTIVADO: "Tu cuenta está desactivada, contacta al administrador",
   CONTRASENA_INCORRECTA: "La contraseña actual es incorrecta",
 
+  // Google
+  CUENTA_GOOGLE: "Tu cuenta está vinculada con Google, inicia sesión con Google",
+
   // Dinámicos
   YA_EXISTE: (campo: string) => `El ${campo} ya está en uso`,
   NO_EXISTE: (campo: string) => `El ${campo} no existe`,

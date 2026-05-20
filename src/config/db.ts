@@ -12,7 +12,7 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
     max: 20, // Máximo de clientes en el pool (optimización)
     idleTimeoutMillis: 30000, // Cerrar clientes inactivos después de 30 seg
-    connectionTimeoutMillis: 2000, // Timeout para conectarse
+    connectionTimeoutMillis: 15000, // Timeout para conectarse (evita timeout por arranque en frío de Neon)
 });
 
 pool.connect()
