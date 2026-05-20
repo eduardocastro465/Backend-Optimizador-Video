@@ -1,5 +1,5 @@
 //Configuración del servidor
-export const CORS_ORIGINS = process.env.CORS_ORIGINS || "http://localhost:3000, http://localhost:5173";
+export const CORS_ORIGINS = process.env.CORS_ORIGINS || "http://localhost:5173,https://frontend-video-libre-dev.vercel.app/";
 export const PORT = process.env.PORT || 3000;
 
 //Configuración del modo de producción
