@@ -28,7 +28,6 @@ export const verifyGoogleAuth = asyncHandler(
       email,
       picture = "",
       sub,
-      locale = "",
     } = payload;
 
     if (!email || !sub) {
@@ -42,10 +41,9 @@ export const verifyGoogleAuth = asyncHandler(
       email,
       picture,
       sub,
-      locale,
     );
 
-    res.cookie("token", token, {
+    res.cookie("token", tokenAuth, {
       httpOnly: true,
       secure: modoProduction,
       sameSite: "strict",
