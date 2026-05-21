@@ -43,7 +43,7 @@ export const verifyGoogleAuth = asyncHandler(
       sub,
     );
 
-    res.cookie("token", token, {
+    res.cookie("token", tokenAuth, {
       httpOnly: true,
       secure: modoProduction,
       sameSite: "strict",
